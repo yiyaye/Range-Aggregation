@@ -1,0 +1,51 @@
+Range Aggregation关键字: 根据用户传递的范围参数作为桶，进行相应的聚合。在同一请求中，请求传递多组范围，每组范围作为一个桶
+#根据价格区间分桶
+GET /cars/cars/_search
+{
+  "aggs": {
+    "prices_range": {
+      "range": {
+        "field": "price",
+        "ranges": [
+          {
+            "to":50000
+          },
+          {
+            "from": 50000,
+            "to": 80000
+          },
+          {
+            "from": 80000
+          }
+        ]
+      }
+    }
+  }
+}
+
+#也可以指定key的名称
+GET /cars/cars/_search
+{
+  "aggs": {
+    "prices_range": {
+      "range": {
+        "field": "price",
+        "ranges": [
+          {
+            "key": "<50000", 
+            "to":50000
+          },
+          {
+            "key": "50000~80000", 
+            "from": 50000,
+            "to": 80000
+          },
+          {
+            "key": ">80000", 
+            "from": 80000
+          }
+        ]
+      }
+    }
+  }
+}
